@@ -1,99 +1,88 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
-using Nethereum.Signer.EIP712;
-using Nethereum.Util;
-using Nethereum.ABI.FunctionEncoding.Attributes;
+using Newtonsoft.Json;
 using Nethereum.Signer;
-using System.Numerics;
-using Nethereum.Hex.HexConvertors.Extensions;
 
-public class TypedDataSigningUsingEIP712_V4
+public class TestSignNEthereum
 {
 	static void Main(string[] args)
 	{
-		var signer = new Eip712TypedDataSigner();
-
 		var key = new EthECKey("8f455772a29ba1314c585d45910896143836c0beb116dfc30b909541da2bc8ad");
 		Console.WriteLine("Signing address: " + key.GetPublicAddress());
 
-		var typedData = GetTransactionTypedDefinition();
-
-        //The data we are going to sign (Primary type) transaction request
         var transactionRequest = new TransactionRequest
         {
-            Sender = "0x83629905189464CC16F5E7c12D54dD5e87459B33",
-            Details = new List<TransactionDetail>
+			flow = TransactionFlow.Internal,
+            sender = "000000000000",
+            details = new List<TransactionDetail>
             {
                 new TransactionDetail
 				{
-                    Sender = "0x83629905189464CC16F5E7c12D54dD5e87459B33",
-                    Receiver = "0x83629905189464CC16F5E7c12D54dD5e87459B33",
-                    TransactionType = "Transfer",
-                    AssetId = "0",
-                    TokenId = "1",
-                    Value = 1,
+					itemId = "ddcc4d2f-a2e3-4018-83a7-6e104f2d3dd0",
+                    sender = "0x83629905189464CC16F5E7c12D54dD5e87459B33",
+                    receiver = "0x83629905189464CC16F5E7c12D54dD5e87459B33",
+                    transactionType = TransactionType.Burn,
+                    assetId = "TOKEN:ERC20:MOCK20:80001",
+                    tokenId = "0",
+                    value = "123",
                 },
             },
-            Execute = true,
+            execute = true,
+			signatureExpire = 1772194379709,
+			chainId = 5,	
+			requestId = "xxx",
         };
-		Console.WriteLine("typedData: " + typedData.PrimaryType);
-		var signature = signer.SignTypedDataV4(transactionRequest, typedData, key);
+		
+		var signer = new EthereumMessageSigner();
+		var msg = JsonConvert.SerializeObject(transactionRequest);
+        Console.WriteLine("message: " + msg);
+		var signature = signer.EncodeUTF8AndSign(msg,key);
         Console.WriteLine("Signature: " + signature);
-        var addressRecovered = signer.RecoverFromSignatureV4(transactionRequest, typedData, signature);
-        var address = key.GetPublicAddress();
-        Console.WriteLine("Recovered address from signature:" + addressRecovered);
+
     }
 
-	public static TypedData<Domain> GetTransactionTypedDefinition()
-	{
-		return new TypedData<Domain>
-		{
-			Domain = new Domain
-			{
-				Name = "balance-keeper",
-				Version = "1",
-				ChainId = 0,
-				VerifyingContract = "0x83629905189464CC16F5E7c12D54dD5e87459B33"
-			},
-			Types = MemberDescriptionFactory.GetTypesMemberDescription(typeof(Domain), typeof(TransactionRequest), typeof(TransactionDetail)),
-			PrimaryType = nameof(TransactionRequest),
-		};
+
+	public enum TransactionFlow {
+		Internal,
+		Deposit,
+		Withdraw,
+		Swap,
+		MintRAM,
+		Transmog,
+		BurnRAM,
 	}
 
-	[Struct("TransactionRequest")]
+	public enum TransactionType {
+		Transfer,
+		Mint,
+		Burn,
+		Deposit,
+		Withdraw,
+		Lock,
+		Release,
+	}
+
 	public class TransactionRequest
 	{
-		[Parameter("address", "sender", 1)]
-		public string Sender { get; set; }
+		public TransactionFlow flow { get; set; }
+		public string sender { get; set; }
+        public List<TransactionDetail> details { get; set; }
+		public bool execute { get; set; }
+		public long signatureExpire { get; set; }
+		public string requestId { get; set; }
+		public int chainId { get; set; }
 
-		[Parameter("tuple[]", "details", 2, "TransactionDetail[]")]
-        public List<TransactionDetail> Details { get; set; }
-
-        [Parameter("bool", "execute", 3)]
-		public bool Execute { get; set; }
 	}
 
-	[Struct("TransactionDetail")]
 	public class TransactionDetail
 	{
-		[Parameter("address", "sender", 1)]
-		public string Sender { get; set; }
-
-		[Parameter("address", "receiver", 2)]
-		public string Receiver { get; set; }
-
-		[Parameter("string", "transactionType", 3)]
-		public string TransactionType { get; set; }
-
-		[Parameter("string", "assetId", 4)]
-		public string AssetId { get; set; }
-
-		[Parameter("string", "tokenId", 5)]
-		public string TokenId { get; set; }
-
-		[Parameter("uint256", "value", 6)]
-		public BigInteger Value { get; set; }
+		public string itemId { get; set; }
+		public TransactionType transactionType { get; set; }
+		public string assetId { get; set; }
+		public string tokenId { get; set; }
+		public string value { get; set; }
+		public string sender { get; set; }
+		public string receiver { get; set; }
 	}
 
 }

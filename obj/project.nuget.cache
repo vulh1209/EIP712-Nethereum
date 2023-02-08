@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "UhMC9pRR4wcot5s2U6uScuR6JNydsw9aAij0jjPeMyaIZAYhHxkLG8+AFZhl/y68oLDlMzI+Cf3H4rmv/cI5gA==",
+  "dgSpecHash": "5LbH6VlMZFsOoRZ2IzR6isUsFpEnzWhTomZsFb2FxjEfEAnkzX2hi2cRnu3TcQ63gUThzAmlfOVNaATwqgWCPg==",
   "success": true,
   "projectFilePath": "/Users/vule/Projects/testNethereum/testNethereum/testNethereum.csproj",
   "expectedPackageFiles": [
@@ -25,7 +25,7 @@
     "/Users/vule/.nuget/packages/nethereum.signer.eip712/4.7.0/nethereum.signer.eip712.4.7.0.nupkg.sha512",
     "/Users/vule/.nuget/packages/nethereum.util/4.7.0/nethereum.util.4.7.0.nupkg.sha512",
     "/Users/vule/.nuget/packages/nethereum.web3/4.7.0/nethereum.web3.4.7.0.nupkg.sha512",
-    "/Users/vule/.nuget/packages/newtonsoft.json/11.0.2/newtonsoft.json.11.0.2.nupkg.sha512",
+    "/Users/vule/.nuget/packages/newtonsoft.json/13.0.2/newtonsoft.json.13.0.2.nupkg.sha512",
     "/Users/vule/.nuget/packages/portable.bouncycastle/1.8.2/portable.bouncycastle.1.8.2.nupkg.sha512",
     "/Users/vule/.nuget/packages/system.collections/4.0.11/system.collections.4.0.11.nupkg.sha512",
     "/Users/vule/.nuget/packages/system.configuration.configurationmanager/6.0.0/system.configuration.configurationmanager.6.0.0.nupkg.sha512",
