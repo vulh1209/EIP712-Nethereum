@@ -12,25 +12,24 @@ public class TestSignNEthereum
 
         var transactionRequest = new TransactionRequest
         {
-			flow = TransactionFlow.Internal,
-            sender = "000000000000",
+            sender = "477322774629",
             details = new List<TransactionDetail>
             {
                 new TransactionDetail
 				{
 					itemId = "ddcc4d2f-a2e3-4018-83a7-6e104f2d3dd0",
-                    sender = "0x83629905189464CC16F5E7c12D54dD5e87459B33",
-                    receiver = "0x83629905189464CC16F5E7c12D54dD5e87459B33",
-                    transactionType = TransactionType.Burn,
-                    assetId = "TOKEN:ERC20:MOCK20:80001",
+                    transactionType = TransactionType.MintRam,
+                    assetId = "TOKEN:RAM:RAM:0",
                     tokenId = "0",
                     value = "123",
+                    sender = "0x83629905189464CC16F5E7c12D54dD5e87459B33",
+                    receiver = "0x83629905189464CC16F5E7c12D54dD5e87459B33",
                 },
             },
             execute = true,
-			signatureExpire = 1772194379709,
-			chainId = 5,	
-			requestId = "xxx",
+			requestId = "123456789",
+			signatureExpire = 1778184688189,
+			chainId = 137,	
         };
 		
 		var signer = new EthereumMessageSigner();
@@ -41,36 +40,28 @@ public class TestSignNEthereum
 
     }
 
-
-	public enum TransactionFlow {
-		Internal,
-		Deposit,
-		Withdraw,
-		Swap,
-		MintRAM,
-		Transmog,
-		BurnRAM,
-	}
-
 	public enum TransactionType {
-		Transfer,
-		Mint,
-		Burn,
-		Deposit,
-		Withdraw,
-		Lock,
-		Release,
+		Unspecified = 0,
+		Transfer = 1,
+		Mint = 2,
+		Burn = 3,
+		Deposit = 4,
+		Withdraw = 5,
+		Lock = 6,
+		Release = 7,
+		BurnAllNonWithdrawable = 8,
+		TransferAll = 9,
+		TransferAllWithdrawable = 10,
 	}
 
 	public class TransactionRequest
 	{
-		public TransactionFlow flow { get; set; }
 		public string sender { get; set; }
         public List<TransactionDetail> details { get; set; }
 		public bool execute { get; set; }
-		public long signatureExpire { get; set; }
 		public string requestId { get; set; }
 		public int chainId { get; set; }
+		public long signatureExpire { get; set; }
 
 	}
 
